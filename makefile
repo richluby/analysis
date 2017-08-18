@@ -7,7 +7,7 @@ LDFLAGS=-ldflags "-X main.Version=${VERSION} -X main.BuildTime=${BUILD}"
 
 default:
 	go install ${LDFLAGS}
-	${GOPATH}/bin/analysis
+	${GOPATH}bin/analysis
 
 clean:
 	go clean
