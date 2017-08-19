@@ -2,8 +2,10 @@
 package main
 
 import (
+	"flag"
 	"fmt"
 	"os"
+	"time"
 )
 
 // Set at compile time
@@ -13,17 +15,35 @@ var (
 )
 
 func printHelp(){
-	fmt.Printf("Data presenter, Version %s, Build %s\n", Version, BuildTime)
-	fmt.Printf("Usage: %s [options]\n", os.Args[0])
+	fmt.Printf("\nData presenter, Version %s, Build %s\n", Version, BuildTime)
+	fmt.Printf("Usage: %s [options] [csv_files]\n", os.Args[0])
+	flag.PrintDefaults()
+	os.Exit(0)
+}
+
+func initCLIArgs() ConfigCLI{
+	config := ConfigCLI{}
+	// informational args
+	flag.Usage = printHelp
+	flag.StringVar(&config.DatabaseFile, "database", "data/transaction.db","the sqlite3 file that contains the transactions")
+	// date/time args
+	defaultInterval := time.Duration(3) * time.Hour * 24
+	flag.StringVar(&config.StartDate, "start-date", "", "the first date to include the display")
+	flag.StringVar(&config.EndDate, "end-date", "", "the last date to include the display")
+	flag.DurationVar(&config.Interval, "time-slice", defaultInterval, "the interval at which to aggregate disparate data points for graphing. accepts any format parsable by time.ParseDuration")
+	// helper args
+	flag.BoolVar(&config.Version, "version", false, "print version information and exit")
+	flag.Parse()
+	config.CSV = flag.Args()
+	return config
 }
 
 // the entry point of the program
 func main(){
-	printHelp()
-	transactionChannel := make(chan Transaction)
-	if err := readData(transactionChannel); err != nil{
-		fmt.Printf("Error while reading data: %+v", err)
-		os.Exit(1)
+	config := initCLIArgs()
+	if config.Version {
+		printHelp()
 	}
+	transactionChannel := make(chan Transaction)
+	go readData(transactionChannel)
 }
-
