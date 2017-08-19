@@ -20,5 +20,6 @@ type ConfigCLI struct{
 	CSV			[]string
 	Version 	bool
 	Interval 	time.Duration
+	MaxBufferedTransactions int
 }
 
