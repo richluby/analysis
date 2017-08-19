@@ -25,6 +25,46 @@ func initDB(){
 	database = db
 }
 
+// checks if this transaction is already present in
+// the databse
+// receiveChannel	: the channel with the raw transactions
+// sendChannel		: the filtered channel to which to send new 
+//						transactions
+func filterTransactions(receiveChannel chan Transaction, sendChannel chan Transaction){
+	defer close(sendChannel)
+	querystatement, err := database.Prepare(fmt.Sprintf("select * from %s where date = ?", TABLE_NAME))
+	if err != nil{
+		log.Printf("Error while building query statement: %+v", err)
+		return
+	}
+	defer querystatement.Close()
+	transactionFound := false
+	var checkTrans Transaction
+	for trans := range receiveChannel{
+		rows, err := querystatement.Query(trans.Date)
+		if err != nil{
+			log.Printf("Error while querying: %+v.", err)
+			log.Printf("Dropping transaction: %+v", trans)
+			continue
+		}
+		for rows.Next() {
+			rows.Scan(&checkTrans)
+			if checkTrans.Date == trans.Date &&
+				checkTrans.Status == trans.Status &&
+				checkTrans.BusinessName == trans.BusinessName &&
+				checkTrans.Category == trans.Category &&
+				checkTrans.Amount == trans.Amount {
+				log.Printf("Duplicate transaction: %+v", checkTrans)
+				transactionFound = true
+				break
+			}
+		}
+		if !transactionFound {
+			sendChannel <- trans
+		} else {
+			transactionFound = false
+		}
+	}
 }
 
 // enters data into the database
