@@ -51,4 +51,6 @@ func main(){
 	}
 	transactionChannel := make(chan Transaction, config.MaxBufferedTransactions)
 	go readData(config.CSV, transactionChannel)
+	initDB()
+	enterData(transactionChannel)
 }
