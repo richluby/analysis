@@ -17,6 +17,9 @@ type ConfigCLI struct{
 	StartDate,
 	EndDate,
 	DatabaseFile,
+	OutputDirectory,
+	GraphTypes,
+	Categories,
 	LogLevel 	string
 	CSV			[]string
 	Version 	bool

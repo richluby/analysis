@@ -37,6 +37,10 @@ func initCLIArgs() ConfigCLI{
 	flag.DurationVar(&config.Interval, "time-slice", defaultInterval, "the interval at which to aggregate disparate data points for graphing. accepts any format parsable by time.ParseDuration")
 	// performance args
 	flag.IntVar(&config.MaxBufferedTransactions, "max-buffer", 5000, "the maximum number of transactions to buffer in memory while reading CSV entries")
+	// Output args
+	flag.StringVar(&config.OutputDirectory, "out", "output", "the directory in which to save output")
+	flag.StringVar(&config.GraphTypes, "graphs", "*", "the comma-delimited list of graphs to create")
+	flag.StringVar(&config.Categories, "category", "*", "the list of categories to include in the analysis")
 	// helper args
 	flag.BoolVar(&config.Version, "version", false, "print version information and exit")
 	flag.Parse()
