@@ -6,6 +6,7 @@ BUILD=`git rev-parse HEAD`
 LDFLAGS=-ldflags "-X main.Version=${VERSION} -X main.BuildTime=${BUILD}"
 
 default:
+	go fmt
 	go install ${LDFLAGS}
 	${GOPATH}bin/analysis ${ARGS}
 
