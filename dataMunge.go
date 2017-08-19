@@ -6,6 +6,7 @@ import (
 	"log"
 	"os"
 	"strconv"
+	"strings"
 	"time"
 )
 
@@ -20,7 +21,8 @@ func buildTransaction(record []string) (Transaction, error) {
 	}
 	trans.BusinessName = record[4]
 	trans.Category = record[5]
-	trans.Amount, err = strconv.ParseFloat(record[6], 64)
+	amount := strings.Replace(record[6], "--", "", 1)
+	trans.Amount, err = strconv.ParseFloat(amount, 64)
 	if err != nil {
 		return Transaction{}, err
 	}
