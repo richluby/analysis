@@ -10,14 +10,14 @@ import (
 
 // Set at compile time
 var (
-	Version string
+	Version   string
 	BuildTime string
 )
 
 var config ConfigCLI
 
 // displays the help and exits the program
-func printHelp(){
+func printHelp() {
 	fmt.Printf("\nData presenter, Version %s, Build %s\n", Version, BuildTime)
 	fmt.Printf("Usage: %s [options] [csv_files]\n", os.Args[0])
 	flag.PrintDefaults()
@@ -25,11 +25,11 @@ func printHelp(){
 }
 
 // initializes the command-line arguments for the progam
-func initCLIArgs() ConfigCLI{
+func initCLIArgs() ConfigCLI {
 	config := ConfigCLI{}
 	// informational args
 	flag.Usage = printHelp
-	flag.StringVar(&config.DatabaseFile, "database", "data/transaction.db","the sqlite3 file that contains the transactions")
+	flag.StringVar(&config.DatabaseFile, "database", "data/transaction.db", "the sqlite3 file that contains the transactions")
 	// date/time args
 	defaultInterval := time.Duration(3) * time.Hour * 24
 	flag.StringVar(&config.StartDate, "start-date", "", "the first date to include the display")
@@ -39,8 +39,8 @@ func initCLIArgs() ConfigCLI{
 	flag.IntVar(&config.MaxBufferedTransactions, "max-buffer", 5000, "the maximum number of transactions to buffer in memory while reading CSV entries")
 	// Output args
 	flag.StringVar(&config.OutputDirectory, "out", "output", "the directory in which to save output")
-	flag.StringVar(&config.GraphTypes, "graphs", "*", "the comma-delimited list of graphs to create")
-	flag.StringVar(&config.Categories, "category", "*", "the list of categories to include in the analysis")
+	flag.StringVar(&config.GraphTypes, "graphs", "", "the comma-delimited list of graphs to create")
+	flag.StringVar(&config.Categories, "category", "", "the list of categories to include in the analysis")
 	// helper args
 	flag.BoolVar(&config.Version, "version", false, "print version information and exit")
 	flag.Parse()
@@ -49,7 +49,7 @@ func initCLIArgs() ConfigCLI{
 }
 
 // the entry point of the program
-func main(){
+func main() {
 	config = initCLIArgs()
 	if config.Version {
 		printHelp()

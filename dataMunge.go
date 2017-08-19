@@ -35,10 +35,10 @@ func buildTransaction(record []string) (Transaction, error) {
 func readData(filePaths []string, sendChannel chan Transaction) error {
 	var err error
 	defer close(sendChannel)
-	for _, filePath := range filePaths{
+	for _, filePath := range filePaths {
 		file, err := os.Open(filePath)
 		defer file.Close()
-		if err != nil{
+		if err != nil {
 			log.Printf("Failed to read file %s: %+v", filePath, err)
 			continue
 		}
@@ -60,4 +60,3 @@ func readData(filePaths []string, sendChannel chan Transaction) error {
 	}
 	return err
 }
-
