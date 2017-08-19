@@ -24,3 +24,23 @@ type ConfigCLI struct{
 	MaxBufferedTransactions int
 }
 
+// implements the Compare for Transactions
+func (a Transaction) Compare(b Transaction) int {
+	if a.Date.Before(b.Date){
+		return 1
+	} else if a.Date.After(b.Date) {
+		return -1
+	}
+	if a.BusinessName > b.BusinessName{
+		return 1
+	} else if a.BusinessName < b.BusinessName{
+		return -1
+	}
+	if a.Amount > b.Amount {
+		return 1
+	} else if a.Amount < b.Amount {
+		return -1
+	}
+	return 0
+}
+

@@ -49,11 +49,7 @@ func filterTransactions(receiveChannel chan Transaction, sendChannel chan Transa
 		}
 		for rows.Next() {
 			rows.Scan(&checkTrans)
-			if checkTrans.Date == trans.Date &&
-				checkTrans.Status == trans.Status &&
-				checkTrans.BusinessName == trans.BusinessName &&
-				checkTrans.Category == trans.Category &&
-				checkTrans.Amount == trans.Amount {
+			if checkTrans == trans {
 				log.Printf("Duplicate transaction: %+v", checkTrans)
 				transactionFound = true
 				break
