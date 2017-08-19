@@ -7,8 +7,9 @@ type Transaction struct{
 	Status,
 	BusinessName,
 	Category string
-	Date time.Time
-	Amount float64
+	Date 	time.Time
+	Amount 	float64
+	Id		int
 }
 
 // stores command line arguments
