@@ -6,8 +6,8 @@ import "time"
 type Transaction struct{
 	Status,
 	BusinessName,
-	Category,
-	Date string
+	Category string
+	Date time.Time
 	Amount float64
 }
 
