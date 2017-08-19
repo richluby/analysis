@@ -1,7 +1,7 @@
 # Purpose
 
-This application serves to generate graphs based on transaction values read from a CSV file.
-After reading the CSV[s], the transaction logs are loaded into a sqlite3 database.
+This application serves to generate graphs based on transaction values read from a CSV file.  After
+reading the CSV[s], the transaction logs are loaded into a sqlite3 database.
 
 # CSV Format
 
