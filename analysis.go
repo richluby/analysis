@@ -14,6 +14,7 @@ var (
 	BuildTime string
 )
 
+var config ConfigCLI
 
 // displays the help and exits the program
 func printHelp(){
@@ -45,7 +46,7 @@ func initCLIArgs() ConfigCLI{
 
 // the entry point of the program
 func main(){
-	config := initCLIArgs()
+	config = initCLIArgs()
 	if config.Version {
 		printHelp()
 	}
